@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-//@Primary
+@Primary
 public class MathCourseRecommender implements ICourseRecommender{
 
     @Override
