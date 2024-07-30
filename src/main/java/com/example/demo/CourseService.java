@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,12 +11,12 @@ public class CourseService {
 
     private ICourseRecommender courseRecommender;
 
-    public CourseService(ICourseRecommender courseRecommender) {
+    public CourseService(@Qualifier("CS") ICourseRecommender courseRecommender) {
         this.courseRecommender = courseRecommender;
     }
 
     @Autowired
-    public void setCourseRecommender(ICourseRecommender courseRecommender) {
+    public void setCourseRecommender(@Qualifier("CS") ICourseRecommender courseRecommender) {
         this.courseRecommender = courseRecommender;
     }
 

@@ -1,6 +1,7 @@
 package com.example.demo;
 
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -9,17 +10,16 @@ import org.springframework.context.annotation.Primary;
 public class ApplicationConfig {
 
     @Bean
-    public CourseService courseService(ICourseRecommender courseRecommender) {
+    public CourseService courseService(@Qualifier("Math") ICourseRecommender courseRecommender) {
         return new CourseService(courseRecommender);
     }
 
-    @Bean
-    @Primary
+    @Bean(name="CS")
     public ICourseRecommender csCourseRecommender(){
         return new CSCourseRecommender();
     }
 
-    @Bean
+    @Bean(name="Math")
     public ICourseRecommender mathCourseRecommender(){
         return new MathCourseRecommender();
     }
