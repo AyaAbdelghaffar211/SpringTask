@@ -8,19 +8,19 @@ import java.util.List;
 @Service
 public class CourseService {
 
-    private ICourseRecommender courseRecommender;
+    private ICourseRecommender csCourseRecommender;
 
-    public CourseService(ICourseRecommender courseRecommender) {
-        this.courseRecommender = courseRecommender;
+    public CourseService(ICourseRecommender csCourseRecommender) {
+        this.csCourseRecommender = csCourseRecommender;
     }
 
     @Autowired
-    public void setCourseRecommender(ICourseRecommender courseRecommender) {
-        this.courseRecommender = courseRecommender;
+    public void setCourseRecommender(ICourseRecommender csCourseRecommender) {
+        this.csCourseRecommender = csCourseRecommender;
     }
 
     public void printRecommendedCourses() {
-        List<Course> courses = courseRecommender.recommend();
+        List<Course> courses = csCourseRecommender.recommend();
         for(Course c:courses){
             System.out.println(c.getCourseCode() + " " + c.getCourseName());
         }

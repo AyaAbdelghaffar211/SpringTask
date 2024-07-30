@@ -9,12 +9,11 @@ import org.springframework.context.annotation.Primary;
 public class ApplicationConfig {
 
     @Bean
-    public CourseService courseService(ICourseRecommender courseRecommender) {
-        return new CourseService(courseRecommender);
+    public CourseService courseService(ICourseRecommender csCourseRecommender) {
+        return new CourseService(csCourseRecommender);
     }
 
     @Bean
-    @Primary
     public ICourseRecommender csCourseRecommender(){
         return new CSCourseRecommender();
     }
