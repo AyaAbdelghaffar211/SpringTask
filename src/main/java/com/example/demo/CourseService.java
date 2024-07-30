@@ -1,22 +1,23 @@
 package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Component
 public class CourseService {
 
     private ICourseRecommender csCourseRecommender;
 
-    public CourseService(ICourseRecommender csCourseRecommender) {
-        this.csCourseRecommender = csCourseRecommender;
+    public CourseService(ICourseRecommender CSCourseRecommender) {
+        this.csCourseRecommender = CSCourseRecommender;
     }
 
     @Autowired
-    public void setCourseRecommender(ICourseRecommender csCourseRecommender) {
-        this.csCourseRecommender = csCourseRecommender;
+    public void setCourseRecommender(ICourseRecommender CSCourseRecommender) {
+        this.csCourseRecommender = CSCourseRecommender;
     }
 
     public void printRecommendedCourses() {
