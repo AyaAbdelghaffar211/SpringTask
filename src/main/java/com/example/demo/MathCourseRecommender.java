@@ -1,8 +1,13 @@
 package com.example.demo;
 
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
+//@Primary
 public class MathCourseRecommender implements ICourseRecommender{
 
     @Override
