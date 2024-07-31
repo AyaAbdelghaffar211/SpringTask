@@ -1,8 +1,9 @@
-package com.example.demo;
+package com.example.demo.service;
 
+import com.example.demo.model.Course;
+import com.example.demo.recommender.ICourseRecommender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class CourseService {
     public void printRecommendedCourses() {
         List<Course> courses = courseRecommender.recommend();
         for(Course c:courses){
-            System.out.println(c.getCourseCode() + " " + c.getCourseName());
+            System.out.println(c.getId() + " " + c.getName() + " " + c.getDescription() + " " + c.getCredit());
         }
     }
 }

@@ -1,4 +1,6 @@
-package com.example.demo;
+package com.example.demo.recommender;
+
+import com.example.demo.model.Course;
 
 import java.util.List;
 
