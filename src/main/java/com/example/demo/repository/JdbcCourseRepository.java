@@ -1,12 +1,12 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.Course;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import javax.annotation.PostConstruct;
 
-import javax.sql.DataSource;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.ResultSet;
@@ -19,8 +19,8 @@ public class JdbcCourseRepository implements ICourseRepository {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public JdbcCourseRepository(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public JdbcCourseRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
@@ -61,14 +61,18 @@ public class JdbcCourseRepository implements ICourseRepository {
     }
 
 
-//    @PostConstruct
-//    public void initialize() {
-//        try {
-//            String sql = Files.lines(Paths.get("src/main/resources/db/schema.sql"))
-//                    .collect(Collectors.joining("\n"));
-//            jdbcTemplate.execute(sql);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    @PostConstruct
+    public void initialize() {
+        try {
+            String sql_schema = Files.lines(Paths.get("src/main/resources/schema.sql"))
+                    .collect(Collectors.joining("\n"));
+            jdbcTemplate.execute(sql_schema);
+
+            String sql_data = Files.lines(Paths.get("src/main/resources/data.sql"))
+                    .collect(Collectors.joining("\n"));
+            jdbcTemplate.execute(sql_data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
