@@ -1,13 +1,11 @@
 package com.example.demo;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import course.project.ICourseRecommender;
+import course.project.Course;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-@Qualifier("Math")
 public class MathCourseRecommender implements ICourseRecommender{
 
     @Override
