@@ -17,7 +17,7 @@ public class ApplicationConfig {
 
     @Bean (name = "CS")
     public ICourseRecommender csCourseRecommender() {
-        return new CSCourseRecommender();
+        return new CustomCSCourseRecommender();
     }
 
     @Bean (name = "Math")
