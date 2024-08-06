@@ -1,11 +1,13 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.Course;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ICourseRepository {
+@Repository
+public interface ICourseRepository extends JpaRepository<Course,Long> {
 
-    public void addCourse(Course course);
-    public void updateCourseDescription(int id, String description);
-    public Course findByID(int id);
-    public void deleteCourse(int id);
+    Page<Course> findAll(Pageable pageable);
 }

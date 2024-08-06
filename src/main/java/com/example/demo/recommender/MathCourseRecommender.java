@@ -14,9 +14,9 @@ public class MathCourseRecommender implements ICourseRecommender {
     @Override
     public List<Course> recommend() {
         List<Course> courses = new ArrayList<>();
-        courses.add(new Course(4,"Introduction to Math", "Math101",6));
-        courses.add(new Course(5,"Linear Algebra", "Math201",8));
-        courses.add(new Course(6,"Calculus", "Math301",8));
+        courses.add(new Course("Introduction to Math", "Math101",6));
+        courses.add(new Course("Linear Algebra", "Math201",8));
+        courses.add(new Course("Calculus", "Math301",8));
         return courses;
     }
 }

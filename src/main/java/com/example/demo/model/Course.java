@@ -1,50 +1,44 @@
 package com.example.demo.model;
 
+import lombok.*;
+
+import javax.persistence.*;
+import java.util.Set;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Entity
+@Table(name="course")
 public class Course {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @NonNull
     private String name;
+
+    @NonNull
     private String description;
+
+    @NonNull
     private int credit;
 
-    public Course(int id, String name, String description, int credit) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.credit = credit;
-    }
+    @OneToOne(mappedBy = "course", cascade = CascadeType.ALL)
+    private Assessment assessment;
 
-    public int getId() {
-        return id;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "course_author",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
+    Set<Author> authors;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getCredit() {
-        return credit;
-    }
-
-    public void setCredit(int credit) {
-        this.credit = credit;
-    }
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Rating> ratings;
 
     public String toString() {
         return "Course [id=" + id + ", name=" + name + ", description=" + description + ", credit=" + credit + "]";

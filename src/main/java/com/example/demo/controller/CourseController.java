@@ -1,18 +1,18 @@
 package com.example.demo.controller;
 
+import com.example.demo.dtos.CourseDTO;
 import com.example.demo.model.Course;
-import com.example.demo.repository.ICourseRepository;
-import com.example.demo.repository.JdbcCourseRepository;
 import com.example.demo.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/courses")
 public class CourseController {
 
     private CourseService courseService;
@@ -23,30 +23,35 @@ public class CourseController {
     }
 
     @GetMapping( "/view/{id}")
-    public Course viewCourseDetails(@PathVariable int id) {
+    public CourseDTO viewCourseDetails(@PathVariable Long id) {
         return courseService.findByID(id);
     }
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addCourse(@RequestBody Course newCourse) {
+    public void addCourse(@RequestBody CourseDTO newCourse) {
        courseService.addCourse(newCourse);
     }
 
     @PutMapping("/update/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateCourse(@RequestBody String newDescription, @PathVariable int id) {
+    public void updateCourse(@RequestBody String newDescription, @PathVariable Long id) {
         courseService.updateCourseDescription(id,newDescription);
     }
 
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCourse(@PathVariable int id) {
+    public void deleteCourse(@PathVariable Long id) {
         courseService.deleteCourse(id);
     }
 
     @GetMapping( "/discover")
-    public List<Course> viewAllCourses() {
+    public List<Course> recommendCourses() {
         return courseService.recommendCourses();
+    }
+
+    @GetMapping("/")
+    public Page<CourseDTO> viewAllCourses(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        return courseService.getAllCourses(page,size);
     }
 }
