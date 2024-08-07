@@ -1,18 +1,23 @@
 package com.example.demo.service;
 
+import com.example.demo.controller.GlobalExceptionHandler;
 import com.example.demo.dtos.CourseDTO;
 import com.example.demo.dtos.mappers.CourseMapper;
+import com.example.demo.exception.CourseNotFoundException;
+import com.example.demo.exception.InvalidCourseException;
 import com.example.demo.model.Course;
 import com.example.demo.recommender.ICourseRecommender;
 import com.example.demo.repository.ICourseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CourseService {
@@ -37,20 +42,25 @@ public class CourseService {
     }
 
     public void updateCourseDescription(Long id, String description){
-        Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+        Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException());
+
+        if(description == null || description.isEmpty()){
+            throw new RuntimeException("Description could not be empty");
+        }
 
         course.setDescription(description);
         courseRepository.save(course);
     }
 
     public CourseDTO findByID(Long id){
-        Course course = courseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("course not found"));
+        Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException());
         return courseMapper.courseToCourseDTO(course);
     }
 
     public void deleteCourse(Long id){
+        if (!courseRepository.existsById(id)) {
+            throw new CourseNotFoundException();
+        }
         courseRepository.deleteById(id);
     }
 

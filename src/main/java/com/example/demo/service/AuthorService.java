@@ -4,6 +4,8 @@ import com.example.demo.dtos.AuthorDTO;
 import com.example.demo.dtos.CourseDTO;
 import com.example.demo.dtos.mappers.AuthorMapper;
 import com.example.demo.dtos.mappers.CourseMapper;
+import com.example.demo.exception.AuthorNotFoundException;
+import com.example.demo.exception.InvalidCourseException;
 import com.example.demo.model.Author;
 import com.example.demo.model.Course;
 import com.example.demo.repository.IAuthorRepository;
@@ -23,8 +25,17 @@ public class AuthorService {
         this.authorRepository = authorRepository;
     }
 
-    public Optional<Author> findByEmail(String email) {
-        return authorRepository.findByEmail(email);
+    public Optional<AuthorDTO> findByEmail(String email) {
+
+        if (email == null || email.isEmpty()) {
+            throw new RuntimeException("Email could not be empty");
+        }
+
+        Optional<Author> author = authorRepository.findByEmail(email);
+        if (!author.isPresent()) {
+            throw new AuthorNotFoundException();
+        }
+        return author.map(AuthorMapper.INSTANCE::authorToAuthorDTO);
     }
 
     public void addAuthor(AuthorDTO authorDTO){
