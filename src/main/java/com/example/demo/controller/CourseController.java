@@ -28,67 +28,34 @@ public class CourseController{
 
     @GetMapping( "/view/{id}")
     public CourseDTO viewCourseDetails(@PathVariable Long id) {
-        try{
-            return courseService.findByID(id);
-        }catch (CourseNotFoundException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+        return courseService.findByID(id);
     }
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public void addCourse(@RequestBody @Valid CourseDTO newCourse) {
-        try {
-            courseService.addCourse(newCourse);
-        }catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
-        }
+        courseService.addCourse(newCourse);
     }
 
     @PutMapping("/update/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateCourse(@RequestBody String newDescription, @PathVariable Long id) {
-        try{
-            courseService.updateCourseDescription(id,newDescription);
-        }catch (CourseNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }catch(RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
-        }
-
+        courseService.updateCourseDescription(id,newDescription);
     }
 
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCourse(@PathVariable Long id) {
-        try {
-            courseService.deleteCourse(id);
-        }catch(CourseNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
-        }
+        courseService.deleteCourse(id);
     }
 
     @GetMapping( "/discover")
     public List<Course> recommendCourses() {
-        try {
-            return courseService.recommendCourses();
-        }catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
-        }
+        return courseService.recommendCourses();
     }
 
     @GetMapping("/")
     public Page<CourseDTO> viewAllCourses(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        try{
-            return courseService.getAllCourses(page,size);
-        }catch( Exception e){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
-        }
+        return courseService.getAllCourses(page,size);
     }
 }

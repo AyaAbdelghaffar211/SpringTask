@@ -1,13 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.dtos.AuthorDTO;
-import com.example.demo.dtos.CourseDTO;
 import com.example.demo.dtos.mappers.AuthorMapper;
-import com.example.demo.dtos.mappers.CourseMapper;
 import com.example.demo.exception.AuthorNotFoundException;
-import com.example.demo.exception.InvalidCourseException;
 import com.example.demo.model.Author;
-import com.example.demo.model.Course;
 import com.example.demo.repository.IAuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,21 +21,24 @@ public class AuthorService {
         this.authorRepository = authorRepository;
     }
 
-    public Optional<AuthorDTO> findByEmail(String email) {
+    public AuthorDTO findByEmail(String email) {
 
         if (email == null || email.isEmpty()) {
             throw new RuntimeException("Email could not be empty");
         }
 
-        Optional<Author> author = authorRepository.findByEmail(email);
-        if (!author.isPresent()) {
+        Author author = authorRepository.findByEmail(email);
+        if (author == null) {
             throw new AuthorNotFoundException();
         }
-        return author.map(AuthorMapper.INSTANCE::authorToAuthorDTO);
+        return authorMapper.authorToAuthorDTO(author);
     }
 
     public void addAuthor(AuthorDTO authorDTO){
         Author author = authorMapper.authorDTOToAuthor(authorDTO);
+        if (authorRepository.findByEmail(author.getEmail()) != null) {
+            throw new IllegalArgumentException("An author with this email already exists.");
+        }
         authorRepository.save(author);
     }
 }

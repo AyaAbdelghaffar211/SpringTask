@@ -23,27 +23,13 @@ public class AuthorController{
     }
 
     @GetMapping( "/view/{email}")
-    public Optional<AuthorDTO> viewAuthor(@PathVariable String email) {
-        try {
-            return authorService.findByEmail(email);
-        }catch(AuthorNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-        }catch(RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }catch(Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
+    public AuthorDTO viewAuthor(@PathVariable String email) {
+        return authorService.findByEmail(email);
     }
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public void addAuthor(@RequestBody @Valid AuthorDTO newAuthor) {
-        try{
-            authorService.addAuthor(newAuthor);
-        }catch(Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+        authorService.addAuthor(newAuthor);
     }
-
-
 }

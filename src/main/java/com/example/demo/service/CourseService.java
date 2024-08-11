@@ -8,6 +8,8 @@ import com.example.demo.exception.InvalidCourseException;
 import com.example.demo.model.Course;
 import com.example.demo.recommender.ICourseRecommender;
 import com.example.demo.repository.ICourseRepository;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,14 +20,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.ConstraintViolationException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Setter
+@Getter
 public class CourseService {
 
     private ICourseRecommender courseRecommender;
     private ICourseRepository courseRepository;
 
-    private final CourseMapper courseMapper = CourseMapper.INSTANCE;
+    private CourseMapper courseMapper = CourseMapper.INSTANCE;
 
     public CourseService(ICourseRecommender courseRecommender, ICourseRepository courseRepository) {
         this.courseRecommender = courseRecommender;
@@ -42,19 +47,27 @@ public class CourseService {
     }
 
     public void updateCourseDescription(Long id, String description){
-        Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException());
-
         if(description == null || description.isEmpty()){
             throw new RuntimeException("Description could not be empty");
         }
 
-        course.setDescription(description);
-        courseRepository.save(course);
+        Optional<Course> course = courseRepository.findById(id);
+
+        if(course == null || !course.isPresent()){
+            throw new CourseNotFoundException();
+        } else{
+            Course coursePresent = course.get();
+            coursePresent.setDescription(description);
+            courseRepository.save(coursePresent);
+        }
     }
 
     public CourseDTO findByID(Long id){
-        Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException());
-        return courseMapper.courseToCourseDTO(course);
+        Optional<Course> course = courseRepository.findById(id);
+        if(course == null || !course.isPresent()){
+            throw new CourseNotFoundException();
+        }
+        return courseMapper.courseToCourseDTO(course.get());
     }
 
     public void deleteCourse(Long id){
@@ -65,6 +78,9 @@ public class CourseService {
     }
 
     public Page<CourseDTO> getAllCourses(int page, int size){
+        if(page<0 || size < 0){
+            throw new IllegalArgumentException("Page and Size must be greater than 0");
+        }
         Pageable pageable = PageRequest.of(page, size);
         Page<Course> coursesPage = courseRepository.findAll(pageable);
         return coursesPage.map(courseMapper::courseToCourseDTO);
