@@ -132,9 +132,9 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
+				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
-				<version>3.9.0.2155</version> <!-- Use the latest version -->
+				<version>3.9.0.2155</version>
 			</plugin>
 		</plugins>
 	</build>
