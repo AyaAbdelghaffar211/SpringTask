@@ -36,7 +36,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(authorize -> authorize
-                        .requestMatchers(new AntPathRequestMatcher("/api/courses")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/courses/")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/courses/view/{id}")).permitAll()
+                        .anyRequest().authenticated()
                 ).sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .httpBasic(withDefaults())
                 .authenticationProvider(authenticationProvider())
