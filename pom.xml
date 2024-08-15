@@ -18,7 +18,7 @@
 		<argLine>-Xmx2048m</argLine>
 		<java.version>17</java.version>
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
-		<sonar.login>your-sonar-token</sonar.login>
+		<sonar.login>squ_59c9ab455db3f255f952b2ef04f8882479655d35</sonar.login>
 	</properties>
 	<dependencies>
 
@@ -89,6 +89,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.sonarsource.scanner.maven</groupId>
+			<artifactId>sonar-maven-plugin</artifactId>
+			<version>4.0.0.4121</version>
+		</dependency>
+
 
 	</dependencies>
 
@@ -130,11 +136,10 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
-				<version>3.9.0.2155</version>
+				<version>4.0.0.4121</version>
 			</plugin>
 		</plugins>
 	</build>
