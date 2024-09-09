@@ -1,6 +1,7 @@
 package com.example.demo.recommender;
 
 import com.example.demo.model.Course;
+import jakarta.xml.bind.JAXBException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,11 @@ class CSCourseRecommenderTest {
 
     @BeforeEach
     void setUp() {
-        csCourseRecommender = new CSCourseRecommender();
+        //csCourseRecommender = new CSCourseRecommender();
     }
 
     @Test
-    void shouldReturnRecommendedCourses() {
+    void shouldReturnRecommendedCourses() throws JAXBException {
         List<Course> expectedCourses = List.of(
                 new Course("Introduction to Computer Science", "CS101", 4),
                 new Course("Object Oriented Programming", "CS201", 4),

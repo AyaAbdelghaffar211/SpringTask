@@ -5,6 +5,7 @@ import com.example.demo.exception.CourseNotFoundException;
 import com.example.demo.exception.InvalidCourseException;
 import com.example.demo.model.Course;
 import com.example.demo.service.CourseService;
+import jakarta.xml.bind.JAXBException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,7 @@ public class CourseController{
     }
 
     @GetMapping( "/discover")
-    public List<Course> recommendCourses() {
+    public List<CourseDTO> recommendCourses() throws JAXBException {
         return courseService.recommendCourses();
     }
 

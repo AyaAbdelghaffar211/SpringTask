@@ -8,6 +8,7 @@ import com.example.demo.exception.InvalidCourseException;
 import com.example.demo.model.Course;
 import com.example.demo.recommender.ICourseRecommender;
 import com.example.demo.repository.ICourseRepository;
+import jakarta.xml.bind.JAXBException;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.domain.Page;
@@ -37,7 +38,7 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
-    public List<Course> recommendCourses() {
+    public List<CourseDTO> recommendCourses() throws JAXBException {
         return courseRecommender.recommend();
     }
 
